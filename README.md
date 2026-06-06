@@ -1,5 +1,5 @@
 # SAC (Smart App Control) Temporarly Disabler Service
-## What it does?
+## What does it do?
 SAC-Disabler is windows service to temporarly disable Smart App Control to workaround starting your blocked applications or services.
 Microsoft does not provide any ways to whitelist hashes of executable/library files.  
 Service is launched via wrapper [NSSM](https://www.nssm.cc/usage)  (Non-Sucking Service Manager) (their website actually is pretty old and seems broken but tool still works on latest Windows 11 versions).
