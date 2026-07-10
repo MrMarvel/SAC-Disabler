@@ -5,7 +5,7 @@ Microsoft does not provide any ways to whitelist hashes of executable/library fi
 Service is launched via wrapper [NSSM](https://www.nssm.cc/usage)  (Non-Sucking Service Manager) (their website actually is pretty old and seems broken but tool still works on latest Windows 11 versions).
 ## Why possibly you actually need it?
 1. You have applications that are blocked by Smart App Control (SAC).
-   SAC-Disabler service disable Smart App Control for 10 seconds after it launches. So you need just to make .ps1 script that launches service before running application (requires admin).  
+   SAC-Disabler service disables Smart App Control for 10 seconds after it launches. So you need just to make .ps1 script that launches service before running application (requires admin).  
 2. You have services that are blocked by SAC.
    You can specify that blocked services dependencies: just add SAC-Disabler Service as dependency to this service so when that service is starting SAC-Disabler will be launched automatically.
 3. You are trying to launch blocked apps/services via workarounds because you don't want to disable Smart App Control permanently.
