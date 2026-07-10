@@ -14,7 +14,7 @@ Service is launched via wrapper [NSSM](https://www.nssm.cc/usage)  (Non-Sucking 
 1. Download latest release
 2. Unpack to persistant folder (for example `C:\Program Files\SAC Disabler Service`, `C:\Utilities\Portable\SAC Disabler Service`, ...)
 3. Run create_service.ps1 as admin.
-After that you will SAC-Disabler service installed.
+After that you will have SAC-Disabler service installed.
 ### If you want manually install
 1. Download NSSM: https://web.archive.org/web/20260530114058/https://nssm.cc/release/nssm-2.24.zip
 2. Download script `SAC_service.ps1`
