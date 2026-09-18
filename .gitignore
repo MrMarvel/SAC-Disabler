@@ -1,3 +1,4 @@
-WindowsPowerShell/
+*.zip
 *.exe
 unsecure_script_*.ps1
+WindowsPowerShell/
