@@ -2,3 +2,4 @@
 *.exe
 unsecure_script_*.ps1
 WindowsPowerShell/
+.idea/
