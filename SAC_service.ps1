@@ -36,7 +36,7 @@ if ($env:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
     }else{
         &"$env:WINDIR\sysnative\windowspowershell\v1.0\powershell.exe" -NonInteractive -NoProfile -file "$($myInvocation.InvocationName)" $args
     }
-exit $lastexitcode
+	exit $lastexitcode
 }
 
 $wasEnabledSmartAppControl = (Get-MpComputerStatus).SmartAppControlState -eq "On"
