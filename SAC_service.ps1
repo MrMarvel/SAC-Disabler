@@ -52,7 +52,7 @@ if ($wasEnabledSmartAppControl) {
     echo "STOP" | citool -r | Out-Null  # Apply changes without reboot [web:18]
 
     # Verify disabled
-    if ((Get-MpComputerStatus).SmartAppControlState -ne "Off") {
+    if ((Get-SmartAppControlState) -ne 0) {
 		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 1
 		echo "STOP" | citool -r | Out-Null
         Write-Error "Failed to disable Smart App Control"
@@ -72,12 +72,12 @@ if ($wasEnabledSmartAppControl) {
     # Verify re-enabled
 	for ($i = 0; $i -lt 30; $i++) {
 		echo "STOP" | citool -r | Out-Null  # Apply changes [web:18]
-        if ((Get-MpComputerStatus).SmartAppControlState -eq "On") {
+        if ((Get-SmartAppControlState) -eq 1) {
             break
         }
         Start-Sleep -Milliseconds 100
     }
-    if ((Get-MpComputerStatus).SmartAppControlState -ne "On") {
+    if ((Get-SmartAppControlState) -ne 1) {
         Write-Error "Failed to re-enable Smart App Control"
     }
 	Write-Output "Successfully re-enabled Smart App Control"
