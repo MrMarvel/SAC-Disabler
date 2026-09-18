@@ -32,15 +32,18 @@ if (!
 if ($env:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
     write-warning "Y'arg Matey, we're off to 64-bit land....."
     if ($myInvocation.Line) {
-        &"$env:WINDIR\sysnative\windowspowershell\v1.0\powershell.exe" -NonInteractive -NoProfile $myInvocation.Line
+        &"$env:WINDIR\sysnative\windowspowershell\v1.0\powershell.exe" -NonInteractive -NoProfile `
+            $myInvocation.Line
     }else{
-        &"$env:WINDIR\sysnative\windowspowershell\v1.0\powershell.exe" -NonInteractive -NoProfile -file "$($myInvocation.InvocationName)" $args
+        &"$env:WINDIR\sysnative\windowspowershell\v1.0\powershell.exe" -NonInteractive -NoProfile -file `
+            "$($myInvocation.InvocationName)" $args
     }
 	exit $lastexitcode
 }
 
 function Get-SmartAppControlState {
-    [int]((Get-CimInstance Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).UsermodeCodeIntegrityPolicyEnforcementStatus -eq 2)
+    [int]((Get-CimInstance Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
+        ).UsermodeCodeIntegrityPolicyEnforcementStatus -eq 2)
 }
 
 $wasEnabledSmartAppControl = Get-SmartAppControlState
@@ -48,17 +51,20 @@ $wasEnabledSmartAppControl = Get-SmartAppControlState
 if ($wasEnabledSmartAppControl) {
 	Write-Output "Disabling Smart App Control..."
     # Disable: set to 0 (Off)
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 0
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" `
+        -Name "VerifiedAndReputablePolicyState" -Value 0
     echo "STOP" | citool -r | Out-Null  # Apply changes without reboot [web:18]
 
     # Verify disabled
     if ((Get-SmartAppControlState) -ne 0) {
-		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 1
+		Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" `
+            -Name "VerifiedAndReputablePolicyState" -Value 1
 		echo "STOP" | citool -r | Out-Null
         Write-Error "Failed to disable Smart App Control"
         exit 1
     }
-	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 1
+	Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" `
+        -Name "VerifiedAndReputablePolicyState" -Value 1
 	Write-Output "Disabled Smart App Control."
 }
 
@@ -68,7 +74,8 @@ Start-Sleep -Milliseconds 10000
 if ($wasEnabledSmartAppControl) {
 	Write-Output "Re-enabling Smart App Control..."
     # Re-enable: set to 1 (On)
-    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" -Name "VerifiedAndReputablePolicyState" -Value 1
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\CI\Policy" `
+        -Name "VerifiedAndReputablePolicyState" -Value 1
     # Verify re-enabled
 	for ($i = 0; $i -lt 30; $i++) {
 		echo "STOP" | citool -r | Out-Null  # Apply changes [web:18]
