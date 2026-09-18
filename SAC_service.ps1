@@ -39,7 +39,11 @@ if ($env:PROCESSOR_ARCHITEW6432 -eq "AMD64") {
 	exit $lastexitcode
 }
 
-$wasEnabledSmartAppControl = (Get-MpComputerStatus).SmartAppControlState -eq "On"
+function Get-SmartAppControlState {
+    [int]((Get-CimInstance Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).UsermodeCodeIntegrityPolicyEnforcementStatus -eq 2)
+}
+
+$wasEnabledSmartAppControl = Get-SmartAppControlState
 
 if ($wasEnabledSmartAppControl) {
 	Write-Output "Disabling Smart App Control..."
