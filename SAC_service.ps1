@@ -19,7 +19,7 @@ if (!
         -FilePath 'powershell' `
         -ArgumentList (
             #flatten to single array
-            '-File', $MyInvocation.MyCommand.Source, $args `
+            '-File', "`"$($MyInvocation.MyCommand.Source)`"", $args `
             | %{ $_ }
         ) `
         -Verb RunAs
